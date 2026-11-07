@@ -24,6 +24,7 @@
 #include "prx/libwebrtc/include/AudioStateConfig.hpp"
 #include "prx/libwebrtc/include/EchoCanceller3Config.hpp"
 #include "prx/libwebrtc/include/CryptoOptions.hpp"
+#include "prx/libwebrtc/include/SentPacket.hpp"
 #include <cstddef>
 #include <cstdint>
 #include "prx/libwebrtc/include/VideoFrameDimensions.hpp"
@@ -181,8 +182,8 @@ int APS5_VABI _ZN3rtc17AsyncPacketSocketD2Ev_nid_postfix(void);
 int APS5_VABI _ZN3rtc17AsyncPacketSocket20NotifyPacketReceivedERKNS_14ReceivedPacketE_nid_postfix(void);
 int APS5_VABI libwebrtcUnknown20(void);
 int APS5_VABI libwebrtcUnknown21(void);
-int APS5_VABI _ZN3rtc10SentPacketC1Ell_nid_postfix(void);
-int APS5_VABI _ZN3rtc10SentPacketC1EllRKNS_10PacketInfoE_nid_postfix(void);
+void APS5_VABI _ZN3rtc10SentPacketC1Ell_nid_postfix(WebRtcSentPacket* packet, std::int64_t packetId, std::int64_t sendTimeMs);
+void APS5_VABI _ZN3rtc10SentPacketC1EllRKNS_10PacketInfoE_nid_postfix(WebRtcSentPacket* packet, std::int64_t packetId, std::int64_t sendTimeMs, const WebRtcPacketInfo* info);
 int APS5_VABI _ZNK3rtc14RTCCertificate10HasExpiredEm_nid_postfix(void);
 int APS5_VABI _ZN3rtc17CopyOnWriteBufferC1Em_nid_postfix(void);
 int APS5_VABI _ZN6webrtc17CodecSpecificInfoD1Ev_nid_postfix(void);
