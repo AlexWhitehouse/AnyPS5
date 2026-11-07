@@ -30,3 +30,5 @@
 #include "prx/libSceNKWebKit/include/UrlHelpers.hpp"
 
 #include "prx/libSceNKWebKit/include/HttpHeaderMapExports.hpp"
+
+#include "prx/libSceNKWebKit/include/CacheControlExports.hpp"
