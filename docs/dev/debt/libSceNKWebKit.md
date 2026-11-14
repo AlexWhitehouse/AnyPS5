@@ -8,6 +8,8 @@ Inventory prose retains historical counts; use the [generated progress report](h
 
 ### Unknown function info
 
+- [Scrollbar value and overhang](../../../core/libs/prx/libSceNKWebKit/src/ScrollbarValue.cpp) - console ABI is unmeasured; the static member signature (no `this`) is assumed from [ScrollableArea.h:361](https://github.com/neonmodder123/PS5-WebKit-11.x/blob/80f77e94c63ee7202eec3d4b5b1a021dd89011ba/Source/WebCore/platform/ScrollableArea.h#L361). Arithmetic and output write order follow [ScrollableArea.cpp:802–823](https://github.com/neonmodder123/PS5-WebKit-11.x/blob/80f77e94c63ee7202eec3d4b5b1a021dd89011ba/Source/WebCore/platform/ScrollableArea.cpp#L802-L823), including aliased references and non-finite inputs. Closes when measured on console.
+
 - [VP codec parser](../../../core/libs/prx/libSceNKWebKit/src/VPCodec.cpp) (`nmGqNyrNQj0`) ports [VP9Utilities.cpp:37–276](https://github.com/neonmodder123/PS5-WebKit-11.x/blob/80f77e94c63ee7202eec3d4b5b1a021dd89011ba/Source/WebCore/platform/graphics/VP9Utilities.cpp#L37-L276). Console ABI/layout is unmeasured. The [record header:107–119](https://github.com/neonmodder123/PS5-WebKit-11.x/blob/80f77e94c63ee7202eec3d4b5b1a021dd89011ba/Source/WebCore/platform/graphics/VP9Utilities.h#L107-L119) with the existing eight-byte non-trivial WTF String gives a 16-byte record, fields at 8–15, and a 24-byte std::optional with engagement at 16 in a GCC 15 real-header/shim probe. Native non-trivial return uses hidden sret; StringView is passed by value. Closes when measured on console.
 
 - [VP codec splitting](../../../core/libs/prx/libSceNKWebKit/src/VPCodec.cpp) skips empty components per [StringView.h:1047–1099](https://github.com/neonmodder123/PS5-WebKit-11.x/blob/80f77e94c63ee7202eec3d4b5b1a021dd89011ba/Source/WTF/wtf/text/StringView.h#L1047-L1099) and [StringView.cpp:140–165](https://github.com/neonmodder123/PS5-WebKit-11.x/blob/80f77e94c63ee7202eec3d4b5b1a021dd89011ba/Source/WTF/wtf/text/StringView.cpp#L140-L165). Null accessed storage throws instead of invalid access; console execution is unverified.
@@ -2285,7 +2287,6 @@ Inventory prose retains historical counts; use the [generated progress report](h
 | `_ZN7WebCore14ScrollableArea27notifyScrollPositionChangedERKNS_8IntPointE` | `7nhDWYNO3lw` |
 | `_ZN7WebCore14ScrollableArea28setScrollOffsetFromInternalsERKNS_8IntPointE` | `IqcrfZx0zKs` |
 | `_ZN7WebCore14ScrollableArea30scrollToOffsetWithoutAnimationERKNS_10FloatPointENS_14ScrollClampingE` | `3JU1ZUdvOO8` |
-| `_ZN7WebCore14ScrollableArea32computeScrollbarValueAndOverhangEfffRfS1_` | `kRCyhNPMrpg` |
 | `_ZN7WebCore14ScrollableArea34constrainScrollPositionForOverhangERKNS_10LayoutRectERKNS_10LayoutSizeERKNS_11LayoutPointES9_ii` | `I3Cm2PthpHQ` |
 | `_ZN7WebCore14ScrollableAreaC2Ev` | `8DA2XBZ-VqY` |
 | `_ZN7WebCore14ScrollableAreaD0Ev` | `BVaird4y-R8` |
