@@ -108,7 +108,7 @@
 
 ### Additional callable export inventory
 
-- [Additional exports](../../../core/libs/prx/libSceLibreSsl3/AdditionalExports.cpp) declare 60 still-unimplemented callable exports: 56 named and 4 known only by NID. These entries throw. Parameterless `int` declarations are unknown-signature placeholders, not verified ABI contracts. Names/NIDs match the 13.60 export table. The fourteen libtls lifecycle/config exports are implemented in `LibTls.cpp`; title compatibility beyond preconnection behavior remains unverified.
+- [Additional exports](../../../core/libs/prx/libSceLibreSsl3/AdditionalExports.cpp) declare 59 still-unimplemented callable exports: 55 named and 4 known only by NID. These entries throw. Parameterless `int` declarations are unknown-signature placeholders, not verified ABI contracts. Names/NIDs match the 13.60 export table. The fourteen libtls lifecycle/config exports are implemented in `LibTls.cpp`; title compatibility beyond preconnection behavior remains unverified.
 
 | Name | NID |
 | --- | --- |
@@ -150,7 +150,6 @@
 | `SSL_CTX_set_quic_method` | `ZFeTGo4ybcw` |
 | `d2i_PKCS8_PRIV_KEY_INFO` | `as+t2ZOg5fw` |
 | `ECDSA_do_sign` | `ba4o0Ih6kSs` |
-| `SSL_CTX_set_ciphersuites` | `bpOQdoGE2es` |
 | `PEM_write_bio_PrivateKey` | `dQE7FIbNsUE` |
 | `i2d_X509` | `e2ReciVG21w` |
 | `d2i_X509_CRL` | `fVos2kAqfMI` |
@@ -187,3 +186,5 @@
 - [OCSP_CERTID_free](../../../core/libs/prx/libSceLibreSsl3/src/OcspCertId.cpp) - console ABI and allocator equivalence are unmeasured. The 32-byte LP64 layout and reverse SEQUENCE field destruction follow LibreSSL 4.0.0 [`ocsp_asn.c`](https://github.com/libressl/openbsd/blob/ce488b78e0bd994780569df718596b9776ff681a/src/lib/libcrypto/ocsp/ocsp_asn.c), `ocsp_local.h`, `asn1/tasn_fre.c` and `asn1/x_algor.c` at the same revision. Existing ASN.1 destructors release the fields through the application heap; static OIDs remain borrowed. Closes when: compared with the console.
 - [OCSP_resp_find_status](../../../core/libs/prx/libSceLibreSsl3/src/OcspFindStatus.cpp) follows [LibreSSL 4.0.0 ocsp_cl.c and ocsp_lib.c](https://github.com/libressl/openbsd/tree/ce488b78e0bd994780569df718596b9776ff681a/src/lib/libcrypto/ocsp): first matching ID, OID/name/key/serial comparison, ignored algorithm parameters, borrowed status/time outputs and untouched outputs on a miss, including null basic responses. The existing parent OCSP records and `OCSP_single_get0_status` are reused through NID imports. Signed serial comparison is private, ported from `asn1/a_int.c`, using the implemented `ASN1_OCTET_STRING_cmp` for its `ASN1_STRING_cmp` operation; no compare export is added. Null response data, single responses, IDs, algorithms and serials throw where upstream dereferences them. Console layout/ABI equivalence and constructor interoperability are unmeasured. The pending-export count is a recount of Export.cpp stubs. Closes when: compared with the console.
 - [`EVP_PKEY_derive_init`, `EVP_PKEY_derive_set_peer` and `EVP_PKEY_derive`](../../../core/libs/prx/libSceLibreSsl3/src/PkeyContext.cpp) (libSceLibreSsl3) - console ABI and error-queue parity are unverified. They follow LibreSSL 4.0.0 `pmeth_fn.c` and `ec_pmeth.c` at [`ce488b78e0bd994780569df718596b9776ff681a`](https://github.com/libressl/openbsd/tree/ce488b78e0bd994780569df718596b9776ff681a/src/lib/libcrypto) for `EVP_PKEY_EC`. Because `libSceLibreSsl` `ECDH_compute_key` rejects short buffers and zeroes long-buffer tails whereas LibreSSL 4.0.0 truncates to `*keylen`, `EcDerive` computes into a 66-byte stack buffer and copies `min(*keylen, secretlen)` without writing past `*keylen`. ECDH KDF (`X9_63`) and cofactor controls are not modelled. Closes when: compared with the console.
+
+- [SSL_CTX_set_ciphersuites](../../../core/libs/prx/libSceLibreSsl3/src/CipherSuites.cpp) - console context/cipher layouts and ABI are unmeasured. Parsing and merging follow LibreSSL 4.0.0 [ssl_ciphers.c, ssl_lib.c and s3_lib.c](https://github.com/libressl/openbsd/tree/ce488b78e0bd994780569df718596b9776ff681a/src/lib/libssl), using the existing 88-byte cipher layout and guest stacks. Parse failures preserve both lists and queue SSL_R_NO_CIPHER_MATCH in the shared parent queue without file/line metadata; merge allocation failure preserves the merged list but retains the newly parsed TLS 1.3 list. Stack duplication uses existing stack allocation/growth rather than upstream's exact allocation sizes. Null context/string and null legacy cipher entries throw where upstream dereferences them. Closes when: console ABI/layout and error metadata are verified.
